@@ -1,36 +1,37 @@
-package com.example.soildoctor
-
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.tabs.TabLayout
-import androidx.viewpager.widget.ViewPager
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
-import com.example.soildoctor.ui.main.SectionsPagerAdapter
-import com.example.soildoctor.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.ServerSocket
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private val port = 12345 // Choose a port number
+    private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        Thread {
+            try {
+                val serverSocket = ServerSocket(port)
+                val socket = serverSocket.accept()
+                val input = BufferedReader(InputStreamReader(socket.getInputStream()))
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
-        val viewPager: ViewPager = binding.viewPager
-        viewPager.adapter = sectionsPagerAdapter
-        val tabs: TabLayout = binding.tabs
-        tabs.setupWithViewPager(viewPager)
-        val fab: FloatingActionButton = binding.fab
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+                while (true) {
+                    val data = input.readLine() // Read data from Raspberry Pi
+                    handler.post {
+                        // Update UI with the received data
+                        textView.text = "Received Data: $data"
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }.start()
     }
 }
