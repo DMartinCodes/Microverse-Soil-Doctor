@@ -1,20 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Sensor data TextViews -->
     <TextView
-        android:id="@+id/SensorTitle"
+        android:id="@+id/textMoisture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sensor Data"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.043" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:text="Moisture: N/A"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:id="@+id/textTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textMoisture"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:text="Temperature: N/A"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:id="@+id/textPH"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textTemperature"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:text="pH: N/A"
+        android:layout_alignParentStart="true"/>
+
+    <!-- Add more TextViews for other sensor data -->
+</RelativeLayout>
